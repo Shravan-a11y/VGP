@@ -6,7 +6,7 @@ class Settings(BaseSettings):
    API_VERSION:str
    DEBUG:bool
 
-   FIREBASE_DATABASE_URL:str
+   FIRESTORE_PROJECT_ID:str
 
    JWT_SECRET_KEY:str
    JWT_ALGORITHM:str

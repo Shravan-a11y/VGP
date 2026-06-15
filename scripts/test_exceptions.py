@@ -1,4 +1,4 @@
-from app.core.expectations import ResourceNotFound
+from app.core.exceptions import ResourceNotFound
 
 try:
     raise ResourceNotFound(

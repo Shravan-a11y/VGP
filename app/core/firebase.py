@@ -1,22 +1,21 @@
 import firebase_admin
 from firebase_admin import credentials
-from firebase_admin import db
-from app.core.config import settings
+from firebase_admin import firestore
 
 firebase_app=None
+firestore_db=None
 
 def initialize_firebase():
     global firebase_app
+    global firebase_db
 
     if firebase_app is None:
-        cred =credentials.Certificate(
-            "secrets/gate-pass-system-9a932-firebase-adminsdk-fbsvc-4475b46c50.json"
+        cred=credentials.Certificate(
+            "secrets/gatesystem-d022a-firebase-adminsdk-fbsvc-79960e5d37.json"
         )
         firebase_app=firebase_admin.initialize_app(
-            cred,
-            {
-                "databaseURL": settings.FIREBASE_DATABASE_URL
-            }
+            cred
         )
+        firestore_db=firestore.client()
 
-    return firebase_app
+        return firestore_db
