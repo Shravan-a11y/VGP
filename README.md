@@ -79,34 +79,30 @@ The Reports Dashboard provides:
 # 📱 QR-Based Visitor Workflow
 
 ```text
-```mermaid
-flowchart TD
-
-A[Visitor Applies]
-
-B[Pending Approval]
-
-C[HOD Approval]
-
-D[Generate QR Gate Pass]
-
-E[Guard Scan]
-
-F[Entry Recorded]
-
-G[Second Scan]
-
-H[Exit Recorded]
-
-A --> B
-B --> C
-C --> D
-D --> E
-E --> F
-F --> G
-G --> H
+Visitor
+    │
+    ▼
+Submit Application
+    │
+    ▼
+Pending Approval
+    │
+    ▼
+HOD Approval
+    │
+    ▼
+QR Gate Pass Generated
+    │
+    ▼
+Security Guard Scans QR
+    │
+    ▼
+First Scan → ENTRY
+    │
+    ▼
+Second Scan → EXIT
 ```
-```
+
 
 ---
 
