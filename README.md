@@ -1,11 +1,18 @@
 # 🚪 Visitor Gate Pass Management System
 
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.116-green)
+![Firebase](https://img.shields.io/badge/Firebase-Firestore-orange)
+![Status](https://img.shields.io/badge/Status-Active-success)
+
 A production-inspired Visitor Gate Pass Management System built using **FastAPI**, **Firebase Firestore**, **JWT Authentication**, **Role-Based Access Control (RBAC)**, **QR Code Verification**, and **Analytics Dashboard**.
 
 The system digitalizes the complete visitor approval process by allowing visitors to request appointments, enabling department heads (HODs) to approve or reject requests, generating secure QR-code-based gate passes, and allowing security personnel to record visitor entry and exit through QR scanning.
 
----
 
+
+
+---
 # ✨ Features
 
 ## Visitor Module
@@ -72,28 +79,33 @@ The Reports Dashboard provides:
 # 📱 QR-Based Visitor Workflow
 
 ```text
-Visitor
-    │
-    ▼
-Submit Application
-    │
-    ▼
-Pending Approval
-    │
-    ▼
-HOD Approval
-    │
-    ▼
-QR Gate Pass Generated
-    │
-    ▼
-Security Guard Scans QR
-    │
-    ▼
-First Scan → ENTRY
-    │
-    ▼
-Second Scan → EXIT
+```mermaid
+flowchart TD
+
+A[Visitor Applies]
+
+B[Pending Approval]
+
+C[HOD Approval]
+
+D[Generate QR Gate Pass]
+
+E[Guard Scan]
+
+F[Entry Recorded]
+
+G[Second Scan]
+
+H[Exit Recorded]
+
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> H
+```
 ```
 
 ---
