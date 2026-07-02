@@ -1,0 +1,387 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">
+        Admin Dashboard
+    </h2>
+
+<form
+    method="get"
+    action="/admin/dashboard"
+    class="mb-4"
+>
+
+<div class="row">
+
+<div class="col-md-5">
+
+<input
+    type="text"
+    name="search"
+    class="form-control"
+    placeholder="Search by visitor name or phone"
+    value="{{ search }}"
+>
+
+</div>
+
+<div class="col-md-5">
+
+<select
+    name="department_id"
+    class="form-select"
+>
+
+<option value="">
+All Departments
+</option>
+
+{% for department in departments %}
+
+<option
+    value="{{ department.department_id }}"
+    {% if department.department_id == department_id %}
+        selected
+    {% endif %}
+>
+
+{{ department.department_name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="col-md-2">
+
+<button
+    class="btn btn-primary w-100"
+>
+
+Search
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+    <!-- Statistics -->
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <div class="card text-white bg-primary shadow">
+
+                <div class="card-body">
+
+                    <h5>Total Departments</h5>
+
+                    <h2>{{ total_departments }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-white bg-success shadow">
+
+                <div class="card-body">
+
+                    <h5>Total Employees</h5>
+
+                    <h2>{{ total_employees }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-white bg-warning shadow">
+
+                <div class="card-body">
+
+                    <h5>Total Applications</h5>
+
+                    <h2>{{ total_applications }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-white bg-dark shadow">
+
+                <div class="card-body">
+
+                    <h5>Active Gate Passes</h5>
+
+                    <h2>{{ active_gatepasses }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Status Cards -->
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-warning shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Pending</h5>
+
+                    <h2 class="text-warning">
+                        {{ pending }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-success shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Approved</h5>
+
+                    <h2 class="text-success">
+                        {{ approved }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-danger shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Rejected</h5>
+
+                    <h2 class="text-danger">
+                        {{ rejected }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <hr class="my-5">
+
+<h3 class="mb-4">
+
+Management Modules
+
+</h3>
+
+<div class="row g-4">
+
+    <!-- Visitor Management -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+            <div class="card-body">
+
+                <h4>
+                    Visitor Management
+                </h4>
+
+                <p class="text-muted">
+
+                    Manage visitor applications,
+                    gate passes and visitor records.
+
+                </p>
+
+                <a
+                    href="/admin/visitors"
+                    class="btn btn-primary w-100"
+                >
+                    Open Module
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Employee Management -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+            <div class="card-body">
+
+                <h4>
+                    Employee Management
+                </h4>
+
+                <p class="text-muted">
+
+                    Add, edit and manage employees
+                    and login accounts.
+
+                </p>
+
+                <a
+                    href="/admin/employees"
+                    class="btn btn-success w-100"
+                >
+                    Open Module
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Department Management -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+            <div class="card-body">
+
+                <h4>
+                    Department Management
+                </h4>
+
+                <p class="text-muted">
+
+                    Create departments and assign
+                    department heads.
+
+                </p>
+
+                <a
+                    href="/admin/departments"
+                    class="btn btn-warning w-100"
+                >
+                    Open Module
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row g-4 mt-2">
+
+    <!-- Security -->
+
+    <div class="col-md-6">
+
+        <div class="card shadow h-100">
+
+            <div class="card-body">
+
+                <h4>
+                    Security
+                </h4>
+
+                <p class="text-muted">
+
+                    Monitor gate entries,
+                    exits and audit logs.
+
+                </p>
+
+                <a
+                    href="/admin/security"
+                    class="btn btn-dark w-100"
+                >
+                    Open Module
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Reports -->
+
+    <div class="col-md-6">
+
+        <div class="card shadow h-100">
+
+            <div class="card-body">
+
+                <h4>
+                    Reports & Analytics
+                </h4>
+
+                <p class="text-muted">
+
+                    Generate reports,
+                    analytics and exports.
+
+                </p>
+
+                <a
+                    href="/admin/reports"
+                    class="btn btn-secondary w-100"
+                >
+                    Open Module
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -18,11 +18,25 @@ __pycache__/
 # VS Code
 .vscode/
 
-# IDE Files
+# IntelliJ / PyCharm
 .idea/
 
 # OS Files
 .DS_Store
 Thumbs.db
 
-logs
+# Logs
+logs/
+*.log
+
+# Generated QR Codes
+generate_qr/
+
+# Python distributions
+build/
+dist/
+*.egg-info/
+
+# Coverage
+.coverage
+htmlcov/

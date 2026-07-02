@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">
+        Employee Management
+    </h2>
+
+    <form
+        method="get"
+        action="/admin/employees"
+        class="mb-4"
+    >
+
+        <div class="row g-3">
+
+            <div class="col-md-4">
+
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Search by Name or Email"
+                    value="{{ search }}"
+                >
+
+            </div>
+
+            <div class="col-md-3">
+
+                <select
+                    name="department_id"
+                    class="form-select"
+                >
+
+                    <option value="">
+                        All Departments
+                    </option>
+
+                    {% for department in departments %}
+
+                    <option
+                        value="{{ department.department_id }}"
+                        {% if department.department_id == department_id %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ department.department_name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <select
+                    name="role"
+                    class="form-select"
+                >
+
+                    <option value="">
+                        All Roles
+                    </option>
+
+                    <option
+                        value="ADMIN"
+                        {% if role == "ADMIN" %}
+                        selected
+                        {% endif %}
+                    >
+                        Admin
+                    </option>
+
+                    <option
+                        value="HOD"
+                        {% if role == "HOD" %}
+                        selected
+                        {% endif %}
+                    >
+                        HOD
+                    </option>
+
+                    <option
+                        value="GUARD"
+                        {% if role == "GUARD" %}
+                        selected
+                        {% endif %}
+                    >
+                        Guard
+                    </option>
+
+                    <option
+                        value="EMPLOYEE"
+                        {% if role == "EMPLOYEE" %}
+                        selected
+                        {% endif %}
+                    >
+                        Employee
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-2 d-grid">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="mb-3">
+
+        <a
+            href="/admin/add-employee"
+            class="btn btn-success"
+        >
+            + Add Employee
+        </a>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Email</th>
+
+                        <th>Department</th>
+
+                        <th>Role</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if employees %}
+
+                    {% for employee in employees %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ employee.employee_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.employee_email }}
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.department_name }}
+
+                        </td>
+
+                        <td>
+
+                            {% if employee.role == "ADMIN" %}
+
+                                <span class="badge bg-danger">
+
+                                    Admin
+
+                                </span>
+
+                            {% elif employee.role == "HOD" %}
+
+                                <span class="badge bg-primary">
+
+                                    HOD
+
+                                </span>
+
+                            {% elif employee.role == "GUARD" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Guard
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Employee
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="/admin/employee/{{ employee.employee_id }}"
+                                class="btn btn-info btn-sm"
+                            >
+                                View
+                            </a>
+
+                            <a
+                                href="/admin/edit-employee/{{ employee.employee_id }}"
+                                class="btn btn-primary btn-sm"
+                            >
+                                Edit
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="text-center text-muted"
+                        >
+                            No employees found.
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

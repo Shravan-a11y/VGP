@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h2 class="mb-0">
+                Add New Employee
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <form
+                method="post"
+                action="/admin/add-employee"
+            >
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Employee Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="employee_name"
+                        class="form-control"
+                        placeholder="Enter Employee Name"
+                        minlength="3"
+                        maxlength="50"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Employee Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="employee_email"
+                        class="form-control"
+                        placeholder="employee@company.com"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Department
+                    </label>
+
+                    <select
+                        name="department_id"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        {% for department in departments %}
+
+                        <option
+                            value="{{ department.department_id }}"
+                        >
+                            {{ department.department_name }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Role
+                    </label>
+
+                    <select
+                        name="role"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select Role
+                        </option>
+
+                        <option value="EMPLOYEE">
+                            Employee
+                        </option>
+
+                        <option value="HOD">
+                            Head of Department
+                        </option>
+
+                        <option value="GUARD">
+                            Security Guard
+                        </option>
+
+                        <option value="ADMIN">
+                            Administrator
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a
+                        href="/admin/employees"
+                        class="btn btn-secondary"
+                    >
+                        Back
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Add Employee
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

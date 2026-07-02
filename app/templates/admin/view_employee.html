@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3 class="mb-0">
+                Employee Details
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <h5>Personal Information</h5>
+
+                    <hr>
+
+                    <p>
+                        <strong>Name:</strong>
+                        {{ employee.employee_name }}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        {{ employee.employee_email }}
+                    </p>
+
+                    <p>
+                        <strong>Role:</strong>
+                        {{ employee.role }}
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h5>Organization Information</h5>
+
+                    <hr>
+
+                    <p>
+                        <strong>Employee ID:</strong>
+                        {{ employee.employee_id }}
+                    </p>
+
+                    <p>
+                        <strong>Department:</strong>
+                        {{ department.department_name }}
+                    </p>
+
+                    <p>
+                        <strong>Created At:</strong>
+                        {{ employee.created_at }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="d-flex gap-2">
+
+                <a
+                    href="/admin/edit-employee/{{ employee.employee_id }}"
+                    class="btn btn-warning"
+                >
+                    Edit Employee
+                </a>
+
+                <a
+                    href="/admin/delete-employee/{{ employee.employee_id }}"
+                    class="btn btn-danger"
+                >
+                    Delete Employee
+                </a>
+
+                <a
+                    href="/admin/employees"
+                    class="btn btn-secondary"
+                >
+                    Back
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

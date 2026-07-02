@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h2>
+                Department Details
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <p>
+
+                        <strong>
+                            Department Name:
+                        </strong>
+
+                        {{ department.department_name }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>
+                            Department Code:
+                        </strong>
+
+                        {{ department.department_code }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>
+                            Created At:
+                        </strong>
+
+                        {{ department.created_at }}
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <p>
+
+                        <strong>
+                            HOD:
+                        </strong>
+
+                        {% if hod %}
+
+                            {{ hod.employee_name }}
+
+                        {% else %}
+
+                            <span class="text-danger">
+
+                                Not Assigned
+
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+                    <p>
+
+                        <strong>
+                            Total Employees:
+                        </strong>
+
+                        {{ employees|length }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            <h4>
+
+                Employees
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Email</th>
+
+                        <th>Role</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for employee in employees %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ employee.employee_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.employee_email }}
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.role }}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <a
+        href="/admin/departments"
+        class="btn btn-secondary"
+    >
+        Back
+    </a>
+
+</div>
+
+{% endblock %}

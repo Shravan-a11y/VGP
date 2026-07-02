@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Application Status</h1>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <h4>
+            {{ application.visitor_name }}
+        </h4>
+
+        <p>
+            Purpose:
+            {{ application.purpose }}
+        </p>
+
+        <p>
+            Status:
+            <strong>
+                {{ application.status }}
+            </strong>
+            {% if application.status == "APPROVED" %}
+
+<a
+    href="/visitor/gatepass/{{ application.application_id }}"
+    class="btn btn-success"
+>
+    View Gate Pass
+</a>
+
+{% endif %}
+        </p>
+
+        <p>
+            Application ID:
+            {{ application.application_id }}
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

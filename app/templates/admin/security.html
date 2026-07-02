@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">
+        Security Dashboard
+    </h2>
+
+    <!-- Statistics -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card bg-success text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Entries</h5>
+
+                    <h2>{{ total_entries }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card bg-danger text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Exits</h5>
+
+                    <h2>{{ total_exits }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card bg-primary text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Visitors Inside</h5>
+
+                    <h2>{{ visitors_inside }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card bg-dark text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Audit Events</h5>
+
+                    <h2>{{ audit_events }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Access Logs -->
+
+    <div class="card shadow mb-5">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+                Access Logs
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover table-bordered align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Visitor</th>
+
+                        <th>Department</th>
+
+                        <th>Host</th>
+
+                        <th>Action</th>
+
+                        <th>Time</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if access_logs %}
+
+                    {% for log in access_logs %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ log.visitor_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ log.department_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ log.host_name }}
+
+                        </td>
+
+                        <td>
+
+                            {% if log.action == "ENTRY" %}
+
+                                <span class="badge bg-success">
+
+                                    ENTRY
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    EXIT
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ log.timestamp |datetime }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center text-muted">
+
+                            No access logs found.
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- Audit Logs -->
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            <h4 class="mb-0">
+                Audit Logs
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover table-bordered align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>User</th>
+
+                        <th>Action</th>
+
+                        <th>Entity</th>
+
+                        <th>Timestamp</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if audit_logs %}
+
+                    {% for log in audit_logs %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ log.user_id }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-secondary">
+
+                                {{ log.action }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ log.entity_id }}
+
+                        </td>
+
+                        <td>
+
+                            {{ log.timestamp | datetime}}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center text-muted">
+
+                            No audit logs found.
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

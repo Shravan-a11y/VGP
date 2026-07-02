@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning text-dark">
+
+            <h3 class="mb-0">
+                Edit Employee
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form
+                method="post"
+                action="/admin/edit-employee/{{ employee.employee_id }}"
+            >
+
+                <div class="row">
+
+                    <!-- Employee Name -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Employee Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="employee_name"
+                            class="form-control"
+                            value="{{ employee.employee_name }}"
+                            minlength="3"
+                            maxlength="50"
+                            required
+                        >
+
+                    </div>
+
+                    <!-- Email -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            name="employee_email"
+                            class="form-control"
+                            value="{{ employee.employee_email }}"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <!-- Department -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Department
+                        </label>
+
+                        <select
+                            name="department_id"
+                            class="form-select"
+                            required
+                        >
+
+                            {% for department in departments %}
+
+                            <option
+                                value="{{ department.department_id }}"
+                                {% if department.department_id == employee.department_id %}
+                                selected
+                                {% endif %}
+                            >
+                                {{ department.department_name }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Role -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Role
+                        </label>
+
+                        <select
+                            name="role"
+                            class="form-select"
+                            required
+                        >
+
+                            <option
+                                value="EMPLOYEE"
+                                {% if employee.role == "EMPLOYEE" %}
+                                selected
+                                {% endif %}
+                            >
+                                Employee
+                            </option>
+
+                            <option
+                                value="HOD"
+                                {% if employee.role == "HOD" %}
+                                selected
+                                {% endif %}
+                            >
+                                HOD
+                            </option>
+
+                            <option
+                                value="GUARD"
+                                {% if employee.role == "GUARD" %}
+                                selected
+                                {% endif %}
+                            >
+                                Guard
+                            </option>
+
+                            <option
+                                value="ADMIN"
+                                {% if employee.role == "ADMIN" %}
+                                selected
+                                {% endif %}
+                            >
+                                Admin
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Employee ID
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            value="{{ employee.employee_id }}"
+                            readonly
+                        >
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Created At
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            value="{{ employee.created_at }}"
+                            readonly
+                        >
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between">
+
+                    <a
+                        href="/admin/employees"
+                        class="btn btn-secondary"
+                    >
+                        Back
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-warning"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

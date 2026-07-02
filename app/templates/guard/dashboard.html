@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">
+        Guard Dashboard
+    </h2>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+                Scan Visitor QR Code
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div id="reader"></div>
+
+            <div
+                id="result"
+                class="mt-3"
+            ></div>
+
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col-12">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-secondary text-white">
+
+                    <h5 class="mb-0">
+
+                        Recent Activity
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Gate Pass</th>
+
+                                <th>Action</th>
+
+                                <th>Time</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for log in recent_logs %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ log.gatepass_id }}
+
+                                </td>
+
+                                <td>
+
+                                    {% if log.action == "ENTRY" %}
+
+                                        <span class="badge bg-success">
+
+                                            ENTRY
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-danger">
+
+                                            EXIT
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {{ log.timestamp | datetime }}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+
+let scannerLocked = false;
+
+function onScanSuccess(decodedText) {
+
+    if (scannerLocked)
+        return;
+
+    scannerLocked = true;
+
+    fetch("/guard/process/" + decodedText)
+
+    .then(async response => {
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail
+            );
+
+        }
+
+        document.getElementById(
+            "result"
+        ).innerHTML =
+
+        `<div class="alert alert-success">
+
+            <strong>${data.action}</strong><br>
+
+            ${data.message}
+
+        </div>`;
+
+    })
+
+    .catch(error => {
+
+        document.getElementById(
+            "result"
+        ).innerHTML =
+
+        `<div class="alert alert-danger">
+
+            ${error.message}
+
+        </div>`;
+
+    })
+
+    .finally(() => {
+
+        setTimeout(() => {
+
+            scannerLocked = false;
+
+            document.getElementById(
+                "result"
+            ).innerHTML = "";
+
+        }, 3000);
+
+    });
+
+}
+
+const html5QrcodeScanner =
+
+new Html5QrcodeScanner(
+
+    "reader",
+
+    {
+
+        fps: 10,
+
+        qrbox: 250,
+
+        rememberLastUsedCamera: true
+
+    },
+
+    false
+
+);
+
+html5QrcodeScanner.render(
+    onScanSuccess
+);
+
+</script>
+
+{% endblock %}

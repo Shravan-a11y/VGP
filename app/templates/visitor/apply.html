@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3 class="mb-0">
+                Visitor Gate Pass Request
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="post" action="/visitor/apply">
+
+                <h5 class="mb-3">
+                    Visitor Information
+                </h5>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Visitor Name <span class="text-danger">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        name="visitor_name"
+                        class="form-control"
+                        minlength="3"
+                        maxlength="50"
+                        pattern="[A-Za-z ]+"
+                        placeholder="Enter Visitor Name"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Email Address <span class="text-danger">*</span>
+                    </label>
+
+                    <input
+                        type="email"
+                        name="visitor_email"
+                        class="form-control"
+                        placeholder="example@gmail.com"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Phone Number <span class="text-danger">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="visitor_phone"
+                        class="form-control"
+                        minlength="10"
+                        maxlength="10"
+                        pattern="[0-9]{10}"
+                        placeholder="9876543210"
+                        required
+                    >
+
+                </div>
+
+                <hr>
+
+                <h5 class="mb-3">
+                    Visit Information
+                </h5>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Department <span class="text-danger">*</span>
+                    </label>
+
+                    <select
+                        name="department_id"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        {% for department in departments %}
+
+                        <option
+                            value="{{ department.department_id }}"
+                        >
+                            {{ department.department_name }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Purpose of Visit <span class="text-danger">*</span>
+                    </label>
+
+                    <textarea
+                        name="purpose"
+                        class="form-control"
+                        rows="3"
+                        minlength="5"
+                        maxlength="150"
+                        placeholder="Meeting / Interview / Delivery"
+                        required
+                    ></textarea>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Visit Date <span class="text-danger">*</span>
+                    </label>
+
+                    <input
+                        type="date"
+                        name="visit_date"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Expected Arrival Time <span class="text-danger">*</span>
+                    </label>
+
+                    <input
+                        type="time"
+                        name="expected_time"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-success w-100"
+                >
+                    Submit Visitor Request
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const today = new Date().toISOString().split("T")[0];
+
+    document.querySelector(
+        "input[name='visit_date']"
+    ).min = today;
+
+});
+
+</script>
+
+{% endblock %}

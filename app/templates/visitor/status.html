@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Track Application Status</h1>
+
+<form method="post" action="/visitor/status">
+
+    <div class="mb-3">
+        <label>Phone Number</label>
+
+        <input
+            type="text"
+            name="visitor_phone"
+            class="form-control"
+            required
+        >
+    </div>
+
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        Search
+    </button>
+
+</form>
+
+<hr>
+
+{% if applications %}
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Visitor</th>
+            <th>Purpose</th>
+            <th>Status</th>
+            <th>Gate Pass</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for application in applications %}
+
+        <tr>
+
+            <td>
+                {{ application.visitor_name }}
+            </td>
+
+            <td>
+                {{ application.purpose }}
+            </td>
+
+            <td>
+                {{ application.status }}
+            </td>
+
+            <td>
+
+                {% if application.status == "APPROVED" %}
+
+                <a
+                    href="/visitor/gatepass/{{ application.application_id }}"
+                    class="btn btn-success btn-sm"
+                >
+                    View Pass
+                </a>
+
+                {% else %}
+
+                -
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endif %}
+
+{% endblock %}

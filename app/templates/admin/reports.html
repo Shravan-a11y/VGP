@@ -1,0 +1,483 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">
+        Reports & Analytics
+    </h2>
+
+    <!-- Statistics -->
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <div class="card bg-primary text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Total Visitors</h5>
+
+                    <h2>{{ statistics.total_visitors }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card bg-success text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Today's Visitors</h5>
+
+                    <h2>{{ statistics.today_visitors }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card bg-warning text-dark shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Employees</h5>
+
+                    <h2>{{ statistics.total_employees }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card bg-dark text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Departments</h5>
+
+                    <h2>{{ statistics.total_departments }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Visitor Status -->
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-warning shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Pending</h5>
+
+                    <h2 class="text-warning">
+                        {{ statistics.pending }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-success shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Approved</h5>
+
+                    <h2 class="text-success">
+                        {{ statistics.approved }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-danger shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Rejected</h5>
+
+                    <h2 class="text-danger">
+                        {{ statistics.rejected }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Department Statistics -->
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+                Department Statistics
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover table-bordered">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Department</th>
+
+                        <th>Total Employees</th>
+
+                        <th>Total Visitors</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for department in department_report %}
+
+                    <tr>
+
+                        <td>{{ department.department_name }}</td>
+
+                        <td>{{ department.employee_count }}</td>
+
+                        <td>{{ department.visitor_count }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Charts -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+                        Visitor Status
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas
+                        id="statusChart"
+                        height="250"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-header bg-success text-white">
+
+                    <h5 class="mb-0">
+                        Department Visitors
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas
+                        id="departmentChart"
+                        height="250"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-header bg-warning text-dark">
+
+                    <h5 class="mb-0">
+                        Daily Visitor Trend
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas
+                        id="visitorChart"
+                        height="250"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Export -->
+
+    <div class="text-end">
+
+        <a
+            href="/admin/reports/export/csv"
+            class="btn btn-success"
+        >
+            Export CSV
+        </a>
+
+        <a
+            href="/admin/reports/export/pdf"
+            class="btn btn-danger"
+        >
+            Export PDF
+        </a>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+// ---------------- Visitor Status Pie Chart ----------------
+
+new Chart(
+
+    document.getElementById("statusChart"),
+
+    {
+
+        type: "pie",
+
+        data: {
+
+            labels: {{ status_chart["labels"] | tojson }},
+
+            datasets: [
+
+                {
+
+                    label: "Visitors",
+
+                    data: {{ status_chart["values"] | tojson }}
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom"
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+
+// ---------------- Department Visitors Bar Chart ----------------
+
+new Chart(
+
+    document.getElementById("departmentChart"),
+
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: {{ department_chart["labels"] | tojson }},
+
+            datasets: [
+
+                {
+
+                    label: "Visitors",
+
+                    data: {{ department_chart["values"] | tojson }}
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: false
+
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+
+// ---------------- Daily Visitor Trend ----------------
+
+new Chart(
+
+    document.getElementById("visitorChart"),
+
+    {
+
+        type: "line",
+
+        data: {
+
+            labels: {{ visitor_chart["labels"] | tojson }},
+
+            datasets: [
+
+                {
+
+                    label: "Visitors",
+
+                    data: {{ visitor_chart["values"] | tojson }},
+
+                    fill: false,
+
+                    tension: 0.3
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: true
+
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+</script>
+
+{% endblock %}

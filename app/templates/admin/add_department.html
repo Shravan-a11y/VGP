@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h2 class="mb-0">
+                Add Department
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <form
+                method="post"
+                action="/admin/add-department"
+            >
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Department Code
+                    </label>
+
+                    <input
+                        type="text"
+                        name="department_code"
+                        class="form-control"
+                        minlength="2"
+                        maxlength="10"
+                        placeholder="Example: HR, IT, FIN, PROD"
+                        style="text-transform: uppercase;"
+                        required
+                    >
+
+                    <small class="text-muted">
+                        Enter a unique department code.
+                    </small>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Department Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="department_name"
+                        class="form-control"
+                        minlength="3"
+                        maxlength="50"
+                        placeholder="Enter Department Name"
+                        required
+                    >
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a
+                        href="/admin/departments"
+                        class="btn btn-secondary"
+                    >
+                        ← Back
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Add Department
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.querySelector(
+    'input[name="department_code"]'
+).addEventListener(
+    "input",
+    function () {
+
+        this.value = this.value.toUpperCase();
+
+    }
+);
+
+</script>
+
+{% endblock %}

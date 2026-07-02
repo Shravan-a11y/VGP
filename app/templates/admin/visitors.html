@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">
+        Visitor Management
+    </h2>
+
+    <!-- Search & Filters -->
+
+    <form
+        method="get"
+        action="/admin/visitors"
+        class="mb-4"
+    >
+
+        <div class="row g-3">
+
+            <div class="col-md-4">
+
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Search by Name, Email or Phone"
+                    value="{{ search }}"
+                >
+
+            </div>
+
+            <div class="col-md-3">
+
+                <select
+                    name="department_id"
+                    class="form-select"
+                >
+
+                    <option value="">
+                        All Departments
+                    </option>
+
+                    {% for department in departments %}
+
+                    <option
+                        value="{{ department.department_id }}"
+                        {% if department.department_id == department_id %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ department.department_name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <select
+                    name="status"
+                    class="form-select"
+                >
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option
+                        value="PENDING"
+                        {% if status == "PENDING" %}
+                        selected
+                        {% endif %}
+                    >
+                        Pending
+                    </option>
+
+                    <option
+                        value="APPROVED"
+                        {% if status == "APPROVED" %}
+                        selected
+                        {% endif %}
+                    >
+                        Approved
+                    </option>
+
+                    <option
+                        value="REJECTED"
+                        {% if status == "REJECTED" %}
+                        selected
+                        {% endif %}
+                    >
+                        Rejected
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-2 d-grid">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <!-- Visitors Table -->
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+                Visitor Applications
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table
+                class="table table-hover table-bordered align-middle"
+            >
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Visitor</th>
+                        <th>Phone</th>
+                        <th>Department</th>
+                        <th>Visit Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if applications %}
+
+                    {% for application in applications %}
+
+                    <tr>
+
+                        <td>
+                            {{ application.visitor_name }}
+                        </td>
+
+                        <td>
+                            {{ application.visitor_phone }}
+                        </td>
+
+                        <td>
+                            {{ application.department_name }}
+                        </td>
+
+                        <td>
+                            {{ application.visit_date }}
+                        </td>
+
+                        <td>
+
+                            {% if application.status == "PENDING" %}
+
+                            <span class="badge bg-warning">
+                                Pending
+                            </span>
+
+                            {% elif application.status == "APPROVED" %}
+
+                            <span class="badge bg-success">
+                                Approved
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-danger">
+                                Rejected
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="/admin/visitor/{{ application.application_id }}"
+                                class="btn btn-info btn-sm"
+                            >
+                                View
+                            </a>
+
+                            {% if application.status == "APPROVED" %}
+
+                            <a
+                                href="/visitor/gatepass/{{ application.application_id }}"
+                                class="btn btn-success btn-sm"
+                            >
+                                Gate Pass
+                            </a>
+
+                            {% endif %}
+
+                            <a
+                                href="/admin/visitor/logs/{{ application.application_id }}"
+                                class="btn btn-secondary btn-sm"
+                            >
+                                Logs
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="text-center text-muted"
+                        >
+                            No visitor applications found.
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
